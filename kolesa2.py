@@ -56,8 +56,8 @@ def get_content(html):
     for item in items:
         cars.append({
             'data_id' : item.get('data-id'),
-            'title' : item.find('span',class_='a-el-info-title').get_text(), 
-            'link' : HOST + item.find('a',class_='ddl_product_link').get('href')
+            'title' : item.find('span', class_='a-el-info-title').get_text(), 
+            'link' : HOST + item.find('a', class_='ddl_product_link').get('href')
         })
     return cars    
     print(cars)
