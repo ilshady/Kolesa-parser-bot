@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import sqlite3
+import pymysql.cursors
 
 from bs4 import BeautifulSoup
 
@@ -22,15 +22,23 @@ telegram_chat_id = '74768964'
 
 base_url_telegram = 'https://api.telegram.org/'+telegram_token+'/sendMessage'
 
-conn = sqlite3.connect('kolesa.db')
+conn = pymysql.connect(
+    host='db4free.net',
+    port=3306,
+    user='kolesa',
+    password='Kolesa2020',
+    db='kolesa',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
 cursor = conn.cursor()
-cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
+'''cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
     data_id TEXT,
     link TEXT,
     title TEXT
 ) """)
 conn.commit()
-
+'''
 
 def get_html(url, params=None):
     r = requests.get(url,headers=HEADERS,params=params)
@@ -67,7 +75,7 @@ def get_content(html):
 
 
 def send_to_db(data_id, link, title):
-    cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (?,?,?)""", (data_id, link, title))
+    cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (%s,%s,%s)""", [data_id, link, title])
     conn.commit()
     print(cursor)
 
@@ -82,7 +90,7 @@ def process_send(cars):
             send_telegram(car['link'], car['title'])
 
 def check_item_db(data_id):
-    sql = 'SELECT * FROM kolesa WHERE data_id=?'
+    sql = 'SELECT * FROM kolesa WHERE data_id = %s'
     cursor.execute(sql, [(int(data_id))])
     return cursor.fetchone()
 
