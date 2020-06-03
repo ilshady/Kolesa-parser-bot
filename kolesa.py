@@ -23,11 +23,11 @@ telegram_chat_id = '74768964'
 base_url_telegram = 'https://api.telegram.org/'+telegram_token+'/sendMessage'
 
 conn = pymysql.connect(
-    host='db4free.net',
+    host='sql7.freemysqlhosting.net',
     port=3306,
-    user='kolesa',
-    password='Kolesa2020',
-    db='kolesa',
+    user='sql7345318',
+    password='qjT2VKMtex',
+    db='sql7345318',
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )

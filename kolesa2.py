@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import requests
-import sqlite3
+import pymysql.cursors
 
 from bs4 import BeautifulSoup
 
@@ -22,7 +22,15 @@ telegram_chat_id = '671453598'
 
 base_url_telegram = 'https://api.telegram.org/'+telegram_token+'/sendMessage'
 
-conn = sqlite3.connect('kolesa2.db')
+conn = pymysql.connect(
+    host='sql7.freemysqlhosting.net',
+    port=3306,
+    user='sql7345318',
+    password='qjT2VKMtex',
+    db='sql7345318',
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
     data_id TEXT,
