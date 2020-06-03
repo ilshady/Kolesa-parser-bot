@@ -75,7 +75,7 @@ def get_content(html):
 
 
 def send_to_db(data_id, link, title):
-    cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (?,?,?)""", (data_id, link, title))
+    cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (%s,%s,%s)""", [data_id, link, title])
     conn.commit()
     conn.close()
     print(cursor)
@@ -91,7 +91,7 @@ def process_send(cars):
             send_telegram(car['link'], car['title'])
 
 def check_item_db(data_id):
-    sql = 'SELECT * FROM kolesa WHERE data_id=?'
+    sql = 'SELECT * FROM kolesa WHERE data_id = %s'
     cursor.execute(sql, [(int(data_id))])
     return cursor.fetchone()
 
