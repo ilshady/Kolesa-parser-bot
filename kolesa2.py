@@ -38,7 +38,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
     title TEXT
 ) """)
 conn.commit()
-
+conn.close()
 
 def get_html(url, params=None):
     r = requests.get(url,headers=HEADERS,params=params)
@@ -77,6 +77,7 @@ def get_content(html):
 def send_to_db(data_id, link, title):
     cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (?,?,?)""", (data_id, link, title))
     conn.commit()
+    conn.close()
     print(cursor)
 
 def process_send(cars):
