@@ -18,7 +18,7 @@ HOST = 'https://kolesa.kz'
 telegram_token = 'bot1150717483:AAH-ebKbiOuVjpI8uqe9e3s-BLawTl7uoBU'
 
 # Укажите чат id в который необходимо отправлять данные
-telegram_chat_id = '74768964'
+telegram_chat_id = '671453598'
 
 base_url_telegram = 'https://api.telegram.org/'+telegram_token+'/sendMessage'
 
@@ -64,8 +64,8 @@ def get_content(html):
     for item in items:
         cars.append({
             'data_id' : item.get('data-id'),
-            'title' : item.find('span', class_='a-el-info-title').get_text(), 
-            'link' : HOST + item.find('a', class_='ddl_product_link').get('href')
+            'title' : item.find('span',class_='a-el-info-title').get_text(), 
+            'link' : HOST + item.find('a',class_='ddl_product_link').get('href')
         })
     return cars    
     print(cars)
