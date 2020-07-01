@@ -56,20 +56,17 @@ def get_pagecount(html):
 
 cars = []
 
+
 def get_content(html):
     soup = BeautifulSoup(html,'html.parser')
-    items = soup.find_all('div', class_='vw-item')
-
-    
+    items = soup.find_all('a', class_='ddl_product_link')
     for item in items:
         cars.append({
-            'data_id' : item.get('data-id'),
-            'title' : item.find('span',class_='a-el-info-title').get_text(), 
-            'link' : HOST + item.find('a',class_='ddl_product_link').get('href')
+            'data_id' : item.get('data-product-id'),
+            'title' : item.get_text(),
+            'link' : HOST + item.get('href')
         })
-    return cars    
-    print(cars)
-    #print(len(cars))
+    return cars 
 
 
 
@@ -77,8 +74,6 @@ def get_content(html):
 def send_to_db(data_id, link, title):
     cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (%s,%s,%s)""", [data_id, link, title])
     conn.commit()
-    conn.close()
-    print(cursor)
 
 def process_send(cars):
     for car in cars:
@@ -99,8 +94,6 @@ def send_telegram(title, link):
     params = {'chat_id': telegram_chat_id,'text': title+'\n'+link}
     session = requests.Session()
     response = session.get(base_url_telegram, params=params)
-    print(response.url)
-    print(response.status_code)
 
 
 
