@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import requests
+<<<<<<< HEAD
 import pymysql.cursors
+=======
+import sqlite3
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
 
 from bs4 import BeautifulSoup
 
@@ -22,6 +26,7 @@ telegram_chat_id = '671453598'
 
 base_url_telegram = 'https://api.telegram.org/'+telegram_token+'/sendMessage'
 
+<<<<<<< HEAD
 conn = pymysql.connect(
     host='sql7.freemysqlhosting.net',
     port=3306,
@@ -31,6 +36,9 @@ conn = pymysql.connect(
     charset='utf8mb4',
     cursorclass=pymysql.cursors.DictCursor
 )
+=======
+conn = sqlite3.connect('kolesa2.db')
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
 cursor = conn.cursor()
 cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
     data_id TEXT,
@@ -38,7 +46,11 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS kolesa (
     title TEXT
 ) """)
 conn.commit()
+<<<<<<< HEAD
 conn.close()
+=======
+
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
 
 def get_html(url, params=None):
     r = requests.get(url,headers=HEADERS,params=params)
@@ -64,8 +76,13 @@ def get_content(html):
     for item in items:
         cars.append({
             'data_id' : item.get('data-id'),
+<<<<<<< HEAD
             'title' : item.find('span', class_='a-el-info-title').get_text(), 
             'link' : HOST + item.find('a', class_='ddl_product_link').get('href')
+=======
+            'title' : item.find('span',class_='a-el-info-title').get_text(), 
+            'link' : HOST + item.find('a',class_='ddl_product_link').get('href')
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
         })
     return cars    
     print(cars)
@@ -75,9 +92,14 @@ def get_content(html):
 
 
 def send_to_db(data_id, link, title):
+<<<<<<< HEAD
     cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (%s,%s,%s)""", [data_id, link, title])
     conn.commit()
     conn.close()
+=======
+    cursor.execute("""INSERT INTO kolesa (data_id, link, title) VALUES (?,?,?)""", (data_id, link, title))
+    conn.commit()
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
     print(cursor)
 
 def process_send(cars):
@@ -91,7 +113,11 @@ def process_send(cars):
             send_telegram(car['link'], car['title'])
 
 def check_item_db(data_id):
+<<<<<<< HEAD
     sql = 'SELECT * FROM kolesa WHERE data_id = %s'
+=======
+    sql = 'SELECT * FROM kolesa WHERE data_id=?'
+>>>>>>> d6fbe1cc4f706ea6f7157238797696234d815d8d
     cursor.execute(sql, [(int(data_id))])
     return cursor.fetchone()
 
